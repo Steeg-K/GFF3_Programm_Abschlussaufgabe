@@ -1036,32 +1036,27 @@ def auswerten(gff3, fasta, file_name):
                 parts = [nukseq[i:i+80] for i in range(0, len(nukseq)-1, 80)]
                 nukseq = '\n'.join(parts)
 
-                # wenn das gen auf dem "-" strang liegt, muss es komplemetiert werden bevor es translatiert werden kann weil in der fasta ja alles in 5'-3' steht 
+                # wenn das Gen auf dem "-" Strang liegt, muss es komplemetiert werden bevor es translatiert werden kann weil in der fasta ja alles in 5'-3' steht 
                 if werte_gff3[4] == "-":
-                    #start und stop für die komplementieren funktion abspeichern
-
-                    # sicherstellen dass die sequenz für das gen vom richtigen plasmid stammt
+                    # sicherstellen dass die Sequenz für das Gen vom richtigen Plasmid stammt
                     if key_gff3 == key_rna_fasta:
-                        # sequenzabschnitt komplementieren von start zu stop 
+                        # Sequenzabschnitt komplementieren von Start zu Stop 
                         komp_seq = komplementieren(value_rna_fasta, start, stop)
-                        # sequenzabschnitt translatieren
+                        # Sequenzabschnitt translatieren
                         AA_seq = translate(komp_seq)
-                        
                         teile = [AA_seq[i:i+80] for i in range(0, len(AA_seq)-1, 80)]
                         AA_seq = '\n'.join(teile)
-                        # übersetzte sequenz wieder zusammen mit dem key(nummer des plasmids) und der protein ID abspeichern
+                        # Übersetzte Sequenz wieder zusammen mit dem key(nummer des plasmids) und der Protein ID abspeichern
                         fileaas.write(">" +gen_ID +"\t"+werte_gff3[1]+"\t"+key_gff3+"\n"+ AA_seq+"\n")
                         filenuk.write(">"+gen_ID +"\t"+werte_gff3[1]+"\t"+key_gff3+"\n"+ nukseq.upper() +"\n")
-                # wenn das gen auf dem "+" strang liegt, muss es nicht komplementiert werden sondern kann einfach abgelesen werden
+                # wenn das Gen auf dem "+" Strang liegt, muss es nicht komplementiert werden sondern kann einfach abgelesen werden
                 elif werte_gff3[4] == "+":
-                    # wieder start und stop festlegen, aber diesmal für die translations funktion, damit nur der ausschnitt übersetzt wird
-                   
+                    # wieder Start und Stop festlegen, aber diesmal für die translations Funktion, damit nur der Ausschnitt übersetzt wird
                     if key_gff3 == key_rna_fasta:
                         AA_seq_plus = translate(value_rna_fasta[start:stop])
-                         
                         teile = [AA_seq_plus[i:i+80] for i in range(0, len(AA_seq_plus)-1, 80)]
                         AA_seq_plus = '\n'.join(teile)
-                        # übersetzte sequenz wieder zusammen mit dem key(nummer des plasmids) und der protein ID abspeichern
+                        # übersetzte Sequenz wieder zusammen mit dem key(nummer des plasmids) und der protein ID abspeichern
                         fileaas.write(">" +gen_ID+"\t"+werte_gff3[1]+"\t"+key_gff3+ "\n"+ AA_seq_plus+"\n")
                         filenuk.write(">"+gen_ID +"\t"+werte_gff3[1]+"\t"+key_gff3+"\n"+ nukseq.upper() +"\n")
     
@@ -1111,7 +1106,6 @@ class Graph:
         plt.xlabel(xlabel, fontsize=self.labelsize)
         plt.ylabel(self.ylabel, fontsize = self.labelsize)
         plt.title(self.title, fontsize = self.titlesize)
-        
         plt.savefig(self.title+"_"+self.name+'.png')
         logging.info("\n"+self.title+"-Plot erstellt\n")
     
